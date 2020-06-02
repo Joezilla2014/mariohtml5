@@ -142,10 +142,10 @@ Mario.Character.prototype.Move = function() {
         } else if (this.DeathTime === 11) {
             this.Ya = -15;
         } else {
-            this.Ya += 2;
+            this.Ya += 1;
         }
-        this.X += this.Xa;
-        this.Y += this.Ya;
+        this.X += (this.Xa / 2);
+        this.Y += (this.Ya / 2);
         return;
     }
     
@@ -214,7 +214,7 @@ Mario.Character.prototype.Move = function() {
             this.Sliding = false;
             this.Facing = -this.Facing;
         } else if (this.JumpTime > 0) {
-            this.Xa += this.XJumpSpeed;
+            this.Xa += (this.XJumpSpeed / 2);
             this.Ya = this.JumpTime * this.YJumpSpeed;
             this.JumpTime--;
         }
@@ -236,7 +236,7 @@ Mario.Character.prototype.Move = function() {
         if (this.Facing === -1) {
             this.Sliding = false;
         }
-        this.Xa += sideWaysSpeed;
+        this.Xa += (sideWaysSpeed / 2);
         if (this.JumpTime >= 0) {
             this.Facing = 1;
         }
@@ -254,7 +254,7 @@ Mario.Character.prototype.Move = function() {
     this.CanShoot = !Enjine.KeyboardInput.IsKeyDown(Enjine.Keys.A);
     this.MayJump = (this.OnGround || this.Sliding) && !Enjine.KeyboardInput.IsKeyDown(Enjine.Keys.S);
     this.XFlip = (this.Facing === -1);
-    this.RunTime += Math.abs(this.Xa) + 5;
+    this.RunTime += ((Math.abs(this.Xa) + 5) / 2);
     
     if (Math.abs(this.Xa) < 0.5) {
         this.RunTime = 0;
@@ -298,7 +298,7 @@ Mario.Character.prototype.Move = function() {
     }
     
     if (!this.OnGround) {
-        this.Ya += 3;
+        this.Ya += 1.5;
     }
     
     if (this.Carried !== null) {
@@ -320,10 +320,10 @@ Mario.Character.prototype.CalcPic = function() {
             runFrame = 1;
         }
         if (this.Carried === null && Math.abs(this.Xa) > 10) {
-            runFrame += 3;
+            runFrame += 1.5;
         }
         if (this.Carried !== null) {
-            runFrame += 10;
+            runFrame += 5;
         }
         if (!this.OnGround) {
             if (this.Carried !== null) {
@@ -337,10 +337,10 @@ Mario.Character.prototype.CalcPic = function() {
     } else {
         runFrame = ((this.RunTime / 20) | 0) % 2;
         if (this.Carried === null && Math.abs(this.Xa) > 10) {
-            runFrame += 2;
+            runFrame += 1;
         }
         if (this.Carried !== null) {
-            runFrame += 8;
+            runFrame += 4;
         }
         if (!this.OnGround) {
             if (this.Carried !== null) {
@@ -390,7 +390,7 @@ Mario.Character.prototype.SubMove = function(xa, ya) {
         if (!this.SubMove(-8, 0)) {
             return false;
         }
-        xa += 8;
+        xa += 4;
     }
     while (ya > 8) {
         if (!this.SubMove(0, 8)) {
@@ -402,7 +402,7 @@ Mario.Character.prototype.SubMove = function(xa, ya) {
         if (!this.SubMove(0, -8)) {
             return false;
         }
-        ya += 8;
+        ya += 4;
     }
     
     if (ya > 0) {
@@ -488,8 +488,8 @@ Mario.Character.prototype.SubMove = function(xa, ya) {
         
         return false;
     } else {
-        this.X += xa;
-        this.Y += ya;
+        this.X += (xa / 2);
+        this.Y += (ya / 2);
         return true;
     }
 };
